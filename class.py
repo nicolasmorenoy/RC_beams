@@ -4,14 +4,37 @@ WAs = 7850
 
 
 class Beams:
-    def __init__(self, _name, _b, _h, _r, _AsS, _AsI, _AsT):
+    def __init__(self, _name, _b, _h, _r,_NS,_DS,_NI, _DI, _NT, _DT, _ST):
         self._name= _name
         self._b=_b
         self._h=_h
         self._r=_r
-        self._AsS=_AsS
-        self._AsI=_AsI
-        self._AsT=_AsT
+        self._NS=_NS
+        self._DS=_DS
+        self._NI=_NI
+        self._DI=_DI
+        self._NT=_NT
+        self._DT=_DT
+        self._ST=_ST
+    
+    def _reinforcement_properties(self):
+        ASproperties=Reinforcement_data(self._DS)
+        dAsS=ASproperties[0]
+        aAsS=ASproperties[1]
+        PAsS=ASproperties[2]
+        WrebarS=ASproperties[3]
+        AIproperties=Reinforcement_data(self._DI)
+        dAsI=AIproperties[0]
+        aAsI=AIproperties[1]
+        PAsI=AIproperties[2]
+        WrebarI=AIproperties[3]
+        ATproperties=Reinforcement_data(self._DT)
+        dAsT=ATproperties[0]
+        aAsT=ATproperties[1]
+        PAsT=ATproperties[2]
+        WrebarT=ATproperties[3]
+
+
 
 class Reinforcement_data:
     def __init__(self, diameter):
