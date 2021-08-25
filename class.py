@@ -1,19 +1,20 @@
-from VigasCR import _rebar_properties
 import math
 PI=math.pi
 WAs = 7850
 
 
 class Beams:
-    def __init__(self, _name, _b, _h, _r):
+    def __init__(self, _name, _b, _h, _r, _AsS, _AsI, _AsT):
         self._name= _name
         self._b=_b
         self._h=_h
         self._r=_r
+        self._AsS=_AsS
+        self._AsI=_AsI
+        self._AsT=_AsT
 
-class Reinforcement:
-    def __init__(self, position, diameter):
-        self._position = position
+class Reinforcement_data:
+    def __init__(self, diameter):
         self._diameter = diameter
     
     def _properties(self):
