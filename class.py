@@ -23,6 +23,10 @@ class Beam:
         self._ST=ST
         self.fc=fc
         self.fy=fy
+
+    #With this method the script determine de rebar properties for this particular beam
+    
+    def reinforcement_bars_properties(self):
         ASS=Reinforcement(self._DS, self._NS)
         self.dAsS= ASS.dAs
         self.aAsS=ASS.aAs 
@@ -41,14 +45,13 @@ class Beam:
            
     
     def _beam_properties(self):
-        Ag=self._b*self._h
-        ds=self._h-self._r-self.dAsT-self.dAsS/2
-        di=self._h-self._r-self.dAsT-self.dAsI/2
-        Ig=self._b*self._h**3/12
-        ro_S=self._As_S/self._b/self.ds
-        ro_I=self._As_I/self._b/self.di
+        self.Ag=self._b*self._h
+        self.ds=self._h-self._r-self.dAsT-self.dAsS/2
+        self.di=self._h-self._r-self.dAsT-self.dAsI/2
+        self.Ig=self._b*self._h**3/12
+        self.ro_S=self._As_S/self._b/self.ds
+        self.ro_I=self._As_I/self._b/self.di
 
-        return Ag, ds, di, Ig, ro_S, ro_I
     
     def _nominal_properties(self):
         self.Mn_S=Mn(self._b,self.ds,self.fc,self.fy,self.ro_S)
@@ -70,13 +73,6 @@ class Reinforcement:
         Wrebar=ASproperties['weight']
 
         return dAs, aAs, PAs, Wrebar
-
-
-        #Then, acording to the input we calculate the beam's reinforcement
-        # self.As_S=self._NS*self.aAsS
-        # self.As_I=self._NI*self.aAsI
-        # self.As_T=self._NT*self.aAsT
-
 
 
 
