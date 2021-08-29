@@ -16,3 +16,11 @@ def Mn(b,d,fc,fy,ro):
     Mn=round(ro*b*d*d*fy*(1-0.59*ro*fy/fc)*1000,2)
 
     return Mn
+
+def header():
+    print(f"""{'*'*100}
+""")
+
+def footer():
+    print(f"""
+{'*'*100}""")
