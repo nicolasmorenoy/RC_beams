@@ -140,14 +140,23 @@ class ConcreteProperties(Properties):
         return self.geometry.height - self.material.cover \
                - self.reinforcement.transverse_reinforcement.diameter \
                - self.reinforcement.bottom_reinforcement.diameter / 2
+    
+    #Included this two properties for a cleaner calculation of rho and some future parameters.
+    @property
+    def ae_b(self):
+        return self.geometry.width*self.d_b
+
+    @property
+    def ae_t(self):
+        return self.geometry.width*self.d_t
 
     @property
     def rho_t(self):
-        return self.reinforcement.top_reinforcement.total_area / self.ag
+        return self.reinforcement.top_reinforcement.total_area / self.ae_t
 
     @property
     def rho_b(self):
-        return self.reinforcement.bottom_reinforcement.total_area / self.ag
+        return self.reinforcement.bottom_reinforcement.total_area / self.ae_b
 
     @property
     def mn_t(self):
@@ -243,12 +252,12 @@ class Beam:
     # Maybe these ones shouldn't be top and bottom but something more generic such as negative and positive
     def get_mn_t(self):
         mn = self.properties.mn_t
-        print("The top nominal moment is {:.2f} kN".format(mn))
+        print(f'The top nominal moment is {mn:.2f} kN')
         return mn
 
     def get_mn_b(self):
         mn = self.properties.mn_b
-        print("The bottom nominal moment is {:.2f} kN".format(mn))
+        print(f'The bottom nominal moment is {mn:.2f} kN')
         return mn
 # endregion
 
