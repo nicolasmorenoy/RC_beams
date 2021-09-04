@@ -17,10 +17,7 @@ def Mn(b,d,fc,fy,ro):
 
     return Mn
 
-def header():
+def header(function):
     print(f"""{'*'*100}
-""")
-
-def footer():
-    print(f"""
+{function()}
 {'*'*100}""")
