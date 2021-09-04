@@ -1,0 +1,22 @@
+from classes import Rectangular, Concrete, Reinforcement, ReinforcementInfo, TransverseReinforcementInfo, Beam, ConcreteProperties
+
+
+
+
+
+
+# region Test area
+geometry = Rectangular(0.3, 0.3)
+material = Concrete(420, 28, 0.04)
+reinforcement = Reinforcement(ReinforcementInfo(5, 2),
+                              ReinforcementInfo(5, 2),
+                              TransverseReinforcementInfo(3, 0.3, 2))
+beam = Beam('TestBeam', ConcreteProperties(geometry,material,reinforcement))
+
+beam.get_mn_t()
+
+beam.properties.geometry.height = 0.5
+
+beam.get_mn_t()
+
+#end region
