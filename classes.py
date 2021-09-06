@@ -248,10 +248,14 @@ class Beam:
     @param properties: Properties of the beam, of type Properties
     @return: A beam element
     """
+    number_of_beams = 0
+
 
     def __init__(self, name, properties):
         self.name = name
         self.properties = properties
+
+        Beam.number_of_beams +=1
 
     # Maybe these ones shouldn't be top and bottom but something more generic such as negative and positive
     def getTopNominalMoment(self):

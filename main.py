@@ -12,7 +12,7 @@ reinforcement = Reinforcement(ReinforcementInfo(5, 2),
                               ReinforcementInfo(5, 2),
                               TransverseReinforcementInfo(3, 0.3, 2))
 beam = Beam('TestBeam', ConcreteProperties(geometry,material,reinforcement))
-
+print(geometry.__dict__)
 beam.getTopNominalMoment()
 beam.getNominalShearStrength()
 
