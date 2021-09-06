@@ -46,12 +46,13 @@ class Rectangular(Geometry):
     def area(self):
         return self.width * self.height
 
+    #Here I change the adjetive of the inertia for a more global parameter like axis 1, in this case the main inertia.
     @property
-    def inertia_main(self):
+    def inertia_around_axis_1(self):
         return self.width * self.height ** 3 / 12
-
+    #Same here
     @property
-    def inertia_weak(self):
+    def inertia_around_axis_2(self):
         return self.height * self.width ** 3 / 12
 # endregion
 
@@ -127,48 +128,49 @@ class ConcreteProperties(Properties):
     # This one should be Ig but contradicts python's naming convention
     @property
     def ig(self):
-        return self.geometry.ix
+        return self.inertia_around_axis_1
 
-    @property
-    def d_t(self):
-        return self.geometry.height - self.material.cover \
-                      - self.reinforcement.transverse_reinforcement.diameter \
-                      - self.reinforcement.top_reinforcement.diameter / 2
+    # I moved all this properties to class Beam, this properties are typical for beams but not for every rectangular concrete element.
+    # @property
+    # def d_t(self):
+    #     return self.geometry.height - self.material.cover \
+    #                   - self.reinforcement.transverse_reinforcement.diameter \
+    #                   - self.reinforcement.top_reinforcement.diameter / 2
 
-    @property
-    def d_b(self):
-        return self.geometry.height - self.material.cover \
-               - self.reinforcement.transverse_reinforcement.diameter \
-               - self.reinforcement.bottom_reinforcement.diameter / 2
+    # @property
+    # def d_b(self):
+    #     return self.geometry.height - self.material.cover \
+    #            - self.reinforcement.transverse_reinforcement.diameter \
+    #            - self.reinforcement.bottom_reinforcement.diameter / 2
     
-    #Included this two properties for a cleaner calculation of rho and some future parameters.
-    @property
-    def ae_b(self):
-        return self.geometry.width*self.d_b
+    # #Included this two properties for a cleaner calculation of rho and some future parameters.
+    # @property
+    # def ae_b(self):
+    #     return self.geometry.width*self.d_b
 
-    @property
-    def ae_t(self):
-        return self.geometry.width*self.d_t
+    # @property
+    # def ae_t(self):
+    #     return self.geometry.width*self.d_t
 
-    @property
-    def rho_t(self):
-        return self.reinforcement.top_reinforcement.total_area / self.ae_t
+    # @property
+    # def rho_t(self):
+    #     return self.reinforcement.top_reinforcement.total_area / self.ae_t
 
-    @property
-    def rho_b(self):
-        return self.reinforcement.bottom_reinforcement.total_area / self.ae_b
+    # @property
+    # def rho_b(self):
+    #     return self.reinforcement.bottom_reinforcement.total_area / self.ae_b
 
-    @property
-    def top_nominal_moment(self):
-        return get_simplified_nominal_moment(self.geometry.width, self.d_t, self.material.fc, self.material.fy, self.rho_t)
+    # @property
+    # def top_nominal_moment(self):
+    #     return get_simplified_nominal_moment(self.geometry.width, self.d_t, self.material.fc, self.material.fy, self.rho_t)
 
-    @property
-    def bottom_nominal_moment(self):
-        return get_simplified_nominal_moment(self.geometry.width, self.d_b, self.material.fc, self.material.fy, self.rho_b)
+    # @property
+    # def bottom_nominal_moment(self):
+    #     return get_simplified_nominal_moment(self.geometry.width, self.d_b, self.material.fc, self.material.fy, self.rho_b)
     
-    @property
-    def nominal_shear_strength(self):
-        return get_nominal_shear_strength(self.geometry.width, min(self.d_b, self.d_t), self.reinforcement.transverse_reinforcement.total_area,self.material.fy, self.reinforcement.transverse_reinforcement.spacing, self.material.fc)
+    # @property
+    # def nominal_shear_strength(self):
+    #     return get_nominal_shear_strength(self.geometry.width, min(self.d_b, self.d_t), self.reinforcement.transverse_reinforcement.total_area,self.material.fy, self.reinforcement.transverse_reinforcement.spacing, self.material.fc)
 # endregion
 
 
@@ -186,7 +188,7 @@ class Reinforcement:
         self.transverse_reinforcement = transverse_reinforcement
 
 
-class ReinforcementInfo:
+class LongitudinalReinforcement:
     """
     Defines the information about the reinforcement
     @param diameter_number: diameter of the bar in #
@@ -209,7 +211,7 @@ class ReinforcementInfo:
         return self.area * self.amount
 
 
-class TransverseReinforcementInfo:
+class TransverseReinforcement:
     """
     Defines the information about the transverse reinforcement
     @param diameter_number: diameter of the bar in #
@@ -221,6 +223,7 @@ class TransverseReinforcementInfo:
         self.spacing = spacing
         self.legs = legs
 
+# region properties
     @property
     def diameter(self):
         return self.diameter_number/8*.0254
@@ -235,8 +238,6 @@ class TransverseReinforcementInfo:
 
 # endregion
 
-# endregion
-
 
 # region Structural Elements
 class Beam:
@@ -248,7 +249,11 @@ class Beam:
     @param properties: Properties of the beam, of type Properties
     @return: A beam element
     """
+    
+# region class variables
     number_of_beams = 0
+    list_of_beams = []
+# endregion
 
 
     def __init__(self, name, properties):
@@ -256,19 +261,79 @@ class Beam:
         self.properties = properties
 
         Beam.number_of_beams +=1
+        Beam.list_of_beams.append(self.name)
+    
+    # Added this special methods for the easy description of the Beam's instance
+    def __repr__(self):
+        return f'{self.name},{self.properties.geometry.width:.2f},{self.properties.geometry.width}'
+    
+    def __str__(self):
+        return f'Beam: {self.name} | base: {self.properties.geometry.width:.2f} [m] | height: {self.properties.geometry.width:.2f} [m]'
+        
+# region properties
+    @property
+    def d_t(self):
+        return self.properties.geometry.height - self.properties.material.cover \
+                      - self.properties.reinforcement.transverse_reinforcement.diameter \
+                      - self.properties.reinforcement.top_reinforcement.diameter / 2
 
-    # Maybe these ones shouldn't be top and bottom but something more generic such as negative and positive
+    @property
+    def d_b(self):
+        return self.properties.geometry.height - self.properties.material.cover \
+               - self.properties.reinforcement.transverse_reinforcement.diameter \
+               - self.properties.reinforcement.bottom_reinforcement.diameter / 2
+    
+    @property
+    def ae_b(self):
+        return self.properties.geometry.width*self.d_b
+
+    @property
+    def ae_t(self):
+        return self.properties.geometry.width*self.d_t
+
+    @property
+    def rho_t(self):
+        return self.properties.reinforcement.top_reinforcement.total_area / self.ae_t
+
+    @property
+    def rho_b(self):
+        return self.properties.reinforcement.bottom_reinforcement.total_area / self.ae_b
+
+    @property
+    def top_nominal_moment(self):
+        return get_simplified_nominal_moment(self.properties.geometry.width, self.d_t, self.properties.material.fc, self.properties.material.fy, self.rho_t)
+
+    @property
+    def bottom_nominal_moment(self):
+        return get_simplified_nominal_moment(self.properties.geometry.width, self.d_b, self.properties.material.fc, self.properties.material.fy, self.rho_b)
+    
+    @property
+    def nominal_shear_strength(self):
+        return get_nominal_shear_strength(self.properties.geometry.width, min(self.d_b, self.d_t), self.properties.reinforcement.transverse_reinforcement.total_area,self.properties.material.fy, self.properties.reinforcement.transverse_reinforcement.spacing, self.properties.material.fc)
+# endregion
+
+# region class methods
+    # Kept Bottom and Top nomenclature, it's more absolute than positive and negative.
     def getTopNominalMoment(self):
-        nominal_moment = self.properties.top_nominal_moment
+        nominal_moment = self.top_nominal_moment
         print(f'The top nominal moment is {nominal_moment:.2f} kN-m')
         return nominal_moment
 
     def getBottomNominalMoment(self):
-        nominal_moment = self.properties.bottom_nominal_moment
+        nominal_moment = self.bottom_nominal_moment
         print(f'The bottom nominal moment is {nominal_moment:.2f} kN-m')
         return nominal_moment
     
     def getNominalShearStrength(self):
-        NominalShearStrength= self.properties.nominal_shear_strength
+        NominalShearStrength= self.nominal_shear_strength
         print(f'The nominal shear strength is {NominalShearStrength:.2f} kN')
+    
+    # Added this two class methods for the summary of the Beam's instances
+    @classmethod
+    def Number_of_beams(cls):
+        print(cls.number_of_beams)
+    
+    @classmethod
+    def List_of_beams(cls):
+        print(cls.list_of_beams)
 # endregion
