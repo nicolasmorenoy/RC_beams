@@ -240,7 +240,7 @@ class TransverseReinforcement:
 
 
 # region Structural Elements
-class Beam:
+class BeamSection:
     """
     This is a class for a beam.
     Maybe there should be a superclass "Structuralelement" and this should be a subclass of that.
@@ -260,8 +260,8 @@ class Beam:
         self.name = name
         self.properties = properties
 
-        Beam.number_of_beams +=1
-        Beam.list_of_beams.append(self.name)
+        BeamSection.number_of_beams +=1
+        BeamSection.list_of_beams.append(self.name)
     
     # Added this special methods for the easy description of the Beam's instance
     def __repr__(self):
