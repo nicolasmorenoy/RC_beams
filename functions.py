@@ -12,16 +12,7 @@ Properties_materials={'fy':[420, 'MPa'], 'f\'c':[28, 'MPa']}
 
 # end region
 
-
-# def rebar_properties(dA):
-#     dAs= dA/8*.0254
-#     aAs = PI*dAs**2/4
-#     PAs = PI*dAs
-#     Wrebar=WAS*dAs
-#     rebar_properties ={'diameter': dAs,'area': aAs,'perimeter': PAs,'weight': Wrebar}
-#     return rebar_properties
-
-
+# region strength functions
 def get_simplified_nominal_moment(base,effective_height,concrete_compressive_strength,reinforcement_yield_stress,rho):
     simplified_nominal_moment=rho*base*effective_height**2*reinforcement_yield_stress*(1-0.59*rho*reinforcement_yield_stress/concrete_compressive_strength)*1000
 
@@ -35,7 +26,9 @@ def get_nominal_shear_strength(base,effective_height,shear_reinforcement_area,re
 
     return nominal_shear_strength
 
+# end region
 
+# region format functions
 def header(function):
     return print(f"""{'*'*100}
 
@@ -43,13 +36,41 @@ def header(function):
 
 {'*'*100}""")
 
+# end region
 
+# region main functions
 def print_welcome():
 
     return """Welcome to RC Beams Calculator
 This software is developed by Boa Constructor S.A.S"""
 
+def beam_section_panel_option():
+    option_list = ['T','B', 'S', 'A']
+    command_list = {'T': 'Top Nominal Moment', 'B': 'Bottom Nominal Moment', 'S': 'Nominal Shear Strength', 'A': 'All properties'}
+    option = input("""
 
+Choose an option to display:
+[T] Top Nominal Moment
+[B] Bottom Nominal Moment
+[S] Shear Nominal Strength
+[A] All Strength properties
+
+""")
+    option = option.upper()
+
+    while not option in option_list:
+        print('Choose a given option')
+        beam_section_panel_option()
+    
+    option = str(command_list[option])
+    
+    return option
+
+
+
+# end region
+
+# region input functions
 def _read_numeric_value():
     value=input()
     def _float_value(string):
@@ -110,3 +131,4 @@ def _beam_reinforcement():
 
     return amount_top_rebar, top_diameter, amount_bottom_rebar, bottom_diameter, stirrups_diameter, stirrups_legs, stirrups_spacing
 
+# end region

@@ -1,5 +1,5 @@
 from classes import ConcreteProperties, Rectangular, Concrete, Reinforcement, LongitudinalReinforcement, TransverseReinforcement, BeamSection
-from functions import header, print_welcome, _read_properties, _beam_reinforcement
+from functions import beam_section_panel_option, header, print_welcome, _read_properties, _beam_reinforcement
 
 
 def main():
@@ -13,8 +13,7 @@ def main():
                                   LongitudinalReinforcement(bottom_diameter, amount_bottom_rebar),
                                   TransverseReinforcement(stirrups_diameter, stirrups_spacing, stirrups_legs))
     beam = BeamSection(beam_name, ConcreteProperties(geometry, material, reinforcement))
-    beam.getTopNominalMoment()
-    beam.getNominalShearStrength()
+    beam.printStrengthproperties(beam_section_panel_option())
 
 
 if __name__=='__main__':

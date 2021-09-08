@@ -1,5 +1,6 @@
+from functions import beam_section_panel_option
 from classes import Rectangular, Concrete, Reinforcement, LongitudinalReinforcement, TransverseReinforcement, BeamSection, ConcreteProperties
-
+from functions import beam_section_panel_option
 
 # region Test area
 geometry = Rectangular(0.3, 0.3)
@@ -20,5 +21,5 @@ BeamSection.Number_of_beams()
 BeamSection.List_of_beams()
 print(beam)
 
-
+beam_section_panel_option()
 # end region

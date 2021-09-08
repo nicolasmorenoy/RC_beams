@@ -316,18 +316,31 @@ class BeamSection:
     # Kept Bottom and Top nomenclature, it's more absolute than positive and negative.
     def getTopNominalMoment(self):
         nominal_moment = self.top_nominal_moment
-        print(f'The top nominal moment is {nominal_moment:.2f} kN-m')
         return nominal_moment
 
     def getBottomNominalMoment(self):
         nominal_moment = self.bottom_nominal_moment
-        print(f'The bottom nominal moment is {nominal_moment:.2f} kN-m')
         return nominal_moment
     
     def getNominalShearStrength(self):
-        NominalShearStrength= self.nominal_shear_strength
-        print(f'The nominal shear strength is {NominalShearStrength:.2f} kN')
+        nominal_shear_strength= self.nominal_shear_strength
+        return nominal_shear_strength
     
+    def printStrengthproperties(self, option):
+        if option == 'Top Nominal Moment':
+            print(f'The top nominal moment is {self.getTopNominalMoment():.2f} kN-m')
+        elif option == 'Bottom Nominal Moment':
+            print(f'The bottom nominal moment is {self.getBottomNominalMoment():.2f} kN-m')
+        elif option == 'Nominal Shear Strength':
+            print(f'The Shear Strength is {self.getNominalShearStrength():.2f} kN')
+        elif option == 'All properties':
+            print(f"""The list of properties can be readed bellow:
+The top nominal moment is {self.getTopNominalMoment():.2f} kN-m
+The bottom nominal moment is {self.getBottomNominalMoment():.2f} kN-m
+The Shear Strength is {self.getNominalShearStrength():.2f} kN
+
+""")
+
     # Added this two class methods for the summary of the Beam's instances
     @classmethod
     def Number_of_beams(cls):
