@@ -13,7 +13,8 @@ def main():
                                   LongitudinalReinforcement(bottom_diameter, amount_bottom_rebar),
                                   TransverseReinforcement(stirrups_diameter, stirrups_spacing, stirrups_legs))
     beam = BeamSection(beam_name, ConcreteProperties(geometry, material, reinforcement))
-    beam.printStrengthproperties(beam_section_panel_option())
+    while (option:=beam_section_panel_option()) !='Exit':
+        beam.printStrengthproperties(option)
 
 
 if __name__=='__main__':

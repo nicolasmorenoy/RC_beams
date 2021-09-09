@@ -44,16 +44,19 @@ def print_welcome():
     return """Welcome to RC Beams Calculator
 This software is developed by Boa Constructor S.A.S"""
 
+
 def beam_section_panel_option():
-    option_list = ['T','B', 'S', 'A']
-    command_list = {'T': 'Top Nominal Moment', 'B': 'Bottom Nominal Moment', 'S': 'Nominal Shear Strength', 'A': 'All properties'}
+    option_list = ['T','B', 'S', 'A', 'E']
+    command_list = {'T': 'Top Nominal Moment', 'B': 'Bottom Nominal Moment', 'S': 'Nominal Shear Strength', 
+    'A': 'All properties', 'E': 'Exit'}
     option = input("""
 
 Choose an option to display:
-[T] Top Nominal Moment
-[B] Bottom Nominal Moment
-[S] Shear Nominal Strength
-[A] All Strength properties
+[T]op Nominal Moment
+[B]ottom Nominal Moment
+[S]hear Nominal Strength
+[A]ll Strength properties
+[E]xit
 
 """)
     option = option.upper()
@@ -61,10 +64,12 @@ Choose an option to display:
     while not option in option_list:
         print('Choose a given option')
         beam_section_panel_option()
-    
+      
     option = str(command_list[option])
-    
+      
     return option
+
+
 
 
 
@@ -101,7 +106,7 @@ def _read_properties():
         Properties_dict[key]=_read_numeric_value()
 
     for key in Properties_materials.keys():
-        print(f'Define the beam {key} (Suggested: {Properties_materials[key][0]}) in {Properties_materials[key][1]} ')
+        print(f'Define the beam {key} (Suggested: {Properties_materials[key][0]}) [{Properties_materials[key][1]}]: ')
         Properties_materials[key][0]=_read_numeric_value()
 
     width=Properties_dict['width']
@@ -114,19 +119,19 @@ def _read_properties():
 
   
 def _beam_reinforcement():
-    print('Introduce the amount of bars for top reinforcement')
+    print('[Longitudinal reinforcement] Introduce the amount of bars for top reinforcement: ')
     amount_top_rebar=_read_int_value()
-    print('Introduce the diameter of tob rebar:')
+    print('[Longitudinal reinforcement] Introduce the diameter of tob rebar [rebar number]: ')
     top_diameter=_read_numeric_value()
-    print('Introduce the amount of bars for bottom reinforcement')
+    print('[Longitudinal reinforcement] Introduce the amount of bars for bottom reinforcement: ')
     amount_bottom_rebar=_read_int_value()
-    print('Introduce the diameter of bottom rebar:')
+    print('[Longitudinal reinforcement] Introduce the diameter of bottom rebar [rebar number]: ')
     bottom_diameter=_read_numeric_value()
-    print('[Transverse reinforcement] Introduce the diameter for stirrups:')
+    print('[Transverse reinforcement] Introduce the diameter for stirrups (suggested #3) [rebar number]: ')
     stirrups_diameter=_read_numeric_value()
-    print('[Transverse reinforcement] Introduce the number of legs')
+    print('[Transverse reinforcement] Introduce the number of legs: ')
     stirrups_legs=_read_numeric_value()
-    print('[Transverse reinforcement] Introduce the stirrups spacing:')
+    print('[Transverse reinforcement] Introduce the stirrups spacing [m]:')
     stirrups_spacing=_read_numeric_value()
 
     return amount_top_rebar, top_diameter, amount_bottom_rebar, bottom_diameter, stirrups_diameter, stirrups_legs, stirrups_spacing

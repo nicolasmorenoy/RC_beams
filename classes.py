@@ -118,59 +118,14 @@ class ConcreteProperties(Properties):
         else:
             raise TypeError("Geometry and/or material not available")
 
-    # For the following properties I would prefer to use a more descriptive name
-
-    # This one should be Ag but contradicts python's naming convention
     @property
-    def ag(self):
+    def gross_area(self):
         return self.geometry.area
 
-    # This one should be Ig but contradicts python's naming convention
     @property
-    def ig(self):
+    def inertia_around_axis_1(self):
         return self.inertia_around_axis_1
 
-    # I moved all this properties to class Beam, this properties are typical for beams but not for every rectangular concrete element.
-    # @property
-    # def d_t(self):
-    #     return self.geometry.height - self.material.cover \
-    #                   - self.reinforcement.transverse_reinforcement.diameter \
-    #                   - self.reinforcement.top_reinforcement.diameter / 2
-
-    # @property
-    # def d_b(self):
-    #     return self.geometry.height - self.material.cover \
-    #            - self.reinforcement.transverse_reinforcement.diameter \
-    #            - self.reinforcement.bottom_reinforcement.diameter / 2
-    
-    # #Included this two properties for a cleaner calculation of rho and some future parameters.
-    # @property
-    # def ae_b(self):
-    #     return self.geometry.width*self.d_b
-
-    # @property
-    # def ae_t(self):
-    #     return self.geometry.width*self.d_t
-
-    # @property
-    # def rho_t(self):
-    #     return self.reinforcement.top_reinforcement.total_area / self.ae_t
-
-    # @property
-    # def rho_b(self):
-    #     return self.reinforcement.bottom_reinforcement.total_area / self.ae_b
-
-    # @property
-    # def top_nominal_moment(self):
-    #     return get_simplified_nominal_moment(self.geometry.width, self.d_t, self.material.fc, self.material.fy, self.rho_t)
-
-    # @property
-    # def bottom_nominal_moment(self):
-    #     return get_simplified_nominal_moment(self.geometry.width, self.d_b, self.material.fc, self.material.fy, self.rho_b)
-    
-    # @property
-    # def nominal_shear_strength(self):
-    #     return get_nominal_shear_strength(self.geometry.width, min(self.d_b, self.d_t), self.reinforcement.transverse_reinforcement.total_area,self.material.fy, self.reinforcement.transverse_reinforcement.spacing, self.material.fc)
 # endregion
 
 
@@ -328,17 +283,23 @@ class BeamSection:
     
     def printStrengthproperties(self, option):
         if option == 'Top Nominal Moment':
-            print(f'The top nominal moment is {self.getTopNominalMoment():.2f} kN-m')
+            print(f'''
+The top nominal moment is {self.getTopNominalMoment():.2f} kN-m
+            ''')
         elif option == 'Bottom Nominal Moment':
-            print(f'The bottom nominal moment is {self.getBottomNominalMoment():.2f} kN-m')
+            print(f'''
+The bottom nominal moment is {self.getBottomNominalMoment():.2f} kN-m
+            ''')
         elif option == 'Nominal Shear Strength':
-            print(f'The Shear Strength is {self.getNominalShearStrength():.2f} kN')
+            print(f'''
+The Shear Strength is {self.getNominalShearStrength():.2f} kN
+''')
         elif option == 'All properties':
-            print(f"""The list of properties can be readed bellow:
+            print(f"""
+The list of properties can be readed bellow:
 The top nominal moment is {self.getTopNominalMoment():.2f} kN-m
 The bottom nominal moment is {self.getBottomNominalMoment():.2f} kN-m
 The Shear Strength is {self.getNominalShearStrength():.2f} kN
-
 """)
 
     # Added this two class methods for the summary of the Beam's instances
