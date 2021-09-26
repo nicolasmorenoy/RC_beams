@@ -144,4 +144,4 @@ cython_debug/
 .idea/
 
 #Pylint
-./vscode/settings.json
+./.vscode/settings.json
