@@ -32,54 +32,67 @@ root.rowconfigure(0, weight=1)
 beam_name=StringVar()
 beam_name_entry = ttk.Entry(mainframe, width=10, textvariable=beam_name) 
 beam_name_entry.grid(column=2, row=2, sticky=E)
+beam_name.set("Test Beam")
 
 width=StringVar()
 width_entry = ttk.Entry(mainframe, width=4, textvariable=width)
 width_entry.grid(column=2, row=3, sticky=E)
+width.set("0.30")
 
 height=StringVar()
 height_entry = ttk.Entry(mainframe, width=4, textvariable=height)
 height_entry.grid(column=2, row=4, sticky=E)
+height.set("0.40")
 
 cover=StringVar()
 cover_entry = ttk.Entry(mainframe, width=4, textvariable=cover)
 cover_entry.grid(column=2, row=5, sticky=E)
+cover.set("0.04")
 
 amount_top_rebar = StringVar()
 amount_top_rebar_entry = ttk.Entry(mainframe, width=4, textvariable=amount_top_rebar) 
 amount_top_rebar_entry.grid(column=6, row=2, sticky=E)
+amount_top_rebar.set("2")
 
 top_diameter = StringVar()
 top_diameter_entry = ttk.Entry(mainframe, width=4, textvariable=top_diameter)
-top_diameter_entry.grid(column=6, row=3, sticky=E) 
+top_diameter_entry.grid(column=6, row=3, sticky=E)
+top_diameter.set("5") 
 
 amount_bottom_rebar = StringVar()
 amount_bottom_rebar_entry = ttk.Entry(mainframe, width=4, textvariable=amount_bottom_rebar)
-amount_bottom_rebar_entry.grid(column=6, row=4, sticky=E) 
+amount_bottom_rebar_entry.grid(column=6, row=4, sticky=E)
+amount_bottom_rebar.set("3") 
 
 bottom_diameter = StringVar()
 bottom_diameter_entry = ttk.Entry(mainframe, width=4, textvariable=bottom_diameter)
-bottom_diameter_entry.grid(column=6, row=5, sticky=E) 
+bottom_diameter_entry.grid(column=6, row=5, sticky=E)
+bottom_diameter.set("6") 
 
 stirrups_diameter = StringVar()
 stirrups_diameter_entry = ttk.Entry(mainframe, width=4, textvariable=stirrups_diameter)
-stirrups_diameter_entry.grid(column=8, row=2, sticky=E) 
+stirrups_diameter_entry.grid(column=8, row=2, sticky=E)
+stirrups_diameter.set("3") 
 
 stirrups_legs = StringVar()
 stirrups_legs_entry = ttk.Entry(mainframe, width=4, textvariable=stirrups_legs)
-stirrups_legs_entry.grid(column=8, row=3, sticky=E) 
+stirrups_legs_entry.grid(column=8, row=3, sticky=E)
+stirrups_legs.set("2") 
 
 stirrups_spacing = StringVar()
 stirrups_spacing_entry = ttk.Entry(mainframe, width=4, textvariable=stirrups_spacing)
-stirrups_spacing_entry.grid(column=8, row=4, sticky=E) 
+stirrups_spacing_entry.grid(column=8, row=4, sticky=E)
+stirrups_spacing.set("0.15") 
 
 reinforcement_yield_stress=StringVar()
 reinforcement_yield_stress_entry = ttk.Entry(mainframe, width=3, textvariable=reinforcement_yield_stress)
 reinforcement_yield_stress_entry.grid(column=11, row=2, sticky=E)
+reinforcement_yield_stress.set("420")
 
 concrete_compressive_strength=StringVar()
 concrete_compressive_strength_entry = ttk.Entry(mainframe, width=3, textvariable=concrete_compressive_strength)
 concrete_compressive_strength_entry.grid(column=11, row=3, sticky=E)
+concrete_compressive_strength.set("28")
 
 ttk.Button(mainframe, text="Calculate", command=beam_section).grid(column=12, row=6, sticky=W)
 
