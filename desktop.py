@@ -10,10 +10,8 @@ from PIL import ImageTk, Image
 #classes
 from classes import ConcreteProperties, Rectangular, Concrete, Reinforcement, LongitudinalReinforcement, TransverseReinforcement, BeamSection
 
-#functions
-from functions import _read_int_value
-
-
+#Utilities
+bar_diameters=('2', '3', '4', '5', '6', '7', '8')
 
 def beam_section(*args):
     try:
@@ -45,6 +43,22 @@ mainframe = ttk.Frame(root, padding="3 3 3 3", style='Theme.TFrame')
 mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
 root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
+mainframe.columnconfigure(0, weight=3, minsize=10)
+mainframe.columnconfigure(1, weight=3, minsize=10)
+mainframe.columnconfigure(2, weight=3, minsize=10)
+mainframe.columnconfigure(3, weight=3, minsize=10)
+mainframe.columnconfigure(4, weight=3, minsize=10)
+mainframe.columnconfigure(5, weight=3, minsize=10)
+mainframe.columnconfigure(6, weight=3, minsize=10)
+mainframe.columnconfigure(7, weight=3, minsize=10)
+mainframe.columnconfigure(8, weight=3, minsize=10)
+mainframe.columnconfigure(9, weight=3, minsize=10)
+mainframe.columnconfigure(10, weight=3, minsize=10)
+mainframe.columnconfigure(11, weight=3, minsize=10)
+mainframe.columnconfigure(12, weight=3, minsize=10)
+mainframe.columnconfigure(13, weight=3, minsize=10)
+mainframe.columnconfigure(14, weight=3, minsize=10)
+mainframe.rowconfigure(1, weight=1)
 
 #Data entry
 beam_name=StringVar()
@@ -68,37 +82,43 @@ cover_entry.grid(column=2, row=5, sticky=E)
 cover.set("0.04")
 
 amount_top_rebar = StringVar()
-amount_top_rebar_entry = ttk.Entry(mainframe, width=4, textvariable=amount_top_rebar) 
+amount_top_rebar_entry = ttk.Entry(mainframe, width=5, textvariable=amount_top_rebar) 
 amount_top_rebar_entry.grid(column=6, row=2, sticky=E)
 amount_top_rebar.set("2")
 
 top_diameter = StringVar()
-top_diameter_entry = ttk.Entry(mainframe, width=4, textvariable=top_diameter)
-top_diameter_entry.grid(column=6, row=3, sticky=E)
-top_diameter.set("5") 
+top_bar_diameter = ttk.Combobox(mainframe, width=2, textvariable=top_diameter)
+top_bar_diameter.bind('<<ComboboxSelected>>')
+top_bar_diameter['values'] = bar_diameters
+top_bar_diameter.grid(column=6, row=3, sticky=E)
+top_bar_diameter.set("5") 
 
 amount_bottom_rebar = StringVar()
-amount_bottom_rebar_entry = ttk.Entry(mainframe, width=4, textvariable=amount_bottom_rebar)
+amount_bottom_rebar_entry = ttk.Entry(mainframe, width=5, textvariable=amount_bottom_rebar)
 amount_bottom_rebar_entry.grid(column=6, row=4, sticky=E)
 amount_bottom_rebar.set("3") 
 
 bottom_diameter = StringVar()
-bottom_diameter_entry = ttk.Entry(mainframe, width=4, textvariable=bottom_diameter)
-bottom_diameter_entry.grid(column=6, row=5, sticky=E)
-bottom_diameter.set("6") 
+bottom_bar_diameter = ttk.Combobox(mainframe, width=2, textvariable=bottom_diameter)
+bottom_bar_diameter.bind('<<ComboboxSelected>>')
+bottom_bar_diameter['values'] = bar_diameters
+bottom_bar_diameter.grid(column=6, row=5, sticky=E)
+bottom_bar_diameter.set("6") 
 
 stirrups_diameter = StringVar()
-stirrups_diameter_entry = ttk.Entry(mainframe, width=4, textvariable=stirrups_diameter)
-stirrups_diameter_entry.grid(column=8, row=2, sticky=E)
-stirrups_diameter.set("3") 
+stirrups_bar_diameter = ttk.Combobox(mainframe, width=2, textvariable=stirrups_diameter)
+stirrups_bar_diameter.bind('<<ComboboxSelected>>')
+stirrups_bar_diameter['values'] = bar_diameters
+stirrups_bar_diameter.grid(column=8, row=2, sticky=E)
+stirrups_bar_diameter.set("3")
 
 stirrups_legs = StringVar()
-stirrups_legs_entry = ttk.Entry(mainframe, width=4, textvariable=stirrups_legs)
+stirrups_legs_entry = ttk.Entry(mainframe, width=5, textvariable=stirrups_legs)
 stirrups_legs_entry.grid(column=8, row=3, sticky=E)
 stirrups_legs.set("2") 
 
 stirrups_spacing = StringVar()
-stirrups_spacing_entry = ttk.Entry(mainframe, width=4, textvariable=stirrups_spacing)
+stirrups_spacing_entry = ttk.Entry(mainframe, width=5, textvariable=stirrups_spacing)
 stirrups_spacing_entry.grid(column=8, row=4, sticky=E)
 stirrups_spacing.set("0.15") 
 
@@ -112,14 +132,14 @@ concrete_compressive_strength_entry = ttk.Entry(mainframe, width=3, textvariable
 concrete_compressive_strength_entry.grid(column=11, row=3, sticky=E)
 concrete_compressive_strength.set("28")
 
-code=StringVar()
+energy=StringVar()
 
 ##Buttons
 
 ttk.Button(mainframe, text="Calculate", default= "active", command=beam_section).grid(column=1, row=12, sticky=W)
-nsr = ttk.Radiobutton(mainframe, text="NSR10", variable=code, value="NSR10").grid(column=14, row=2, sticky=W)
-aci = ttk.Radiobutton(mainframe, text="ACI318", variable=code, value="ACI318").grid(column=14, row=3, sticky=W)
-personalized = ttk.Radiobutton(mainframe, text="Personalized", variable=code, value="Personalized").grid(column=14, row=4, sticky=W)
+dmi = ttk.Radiobutton(mainframe, text="DMI", variable=energy, value="DMI").grid(column=14, row=2, sticky=W)
+dmo = ttk.Radiobutton(mainframe, text="DMO", variable=energy, value="DMO").grid(column=14, row=3, sticky=W)
+des = ttk.Radiobutton(mainframe, text="DES", variable=energy, value="DES").grid(column=14, row=4, sticky=W)
 
 
 ##Results
@@ -137,7 +157,7 @@ ttk.Label(mainframe, textvariable=nominal_shear_strength).grid(column=2, row=8, 
 logo=Image.open('./images/logo.png')
 logo = logo.resize((20,20), Image.ANTIALIAS)
 
-ttk.Label(mainframe, text="Beam Section Calculator\nby Nicolás Moreno").grid(column=1, row=0, sticky=(W, E))
+ttk.Label(mainframe, text="BEAM SECTION CALCULATOR\nby Nicolás Moreno").grid(column=1, row=0, columnspan=14)
 ttk.Label(mainframe, text="Boa Constructor Software").grid(column=14, row=12, sticky=E)
 img = ImageTk.PhotoImage(logo)
 ttk.Label(mainframe, image=img).grid(column=13, row=12, sticky=(W, E))
