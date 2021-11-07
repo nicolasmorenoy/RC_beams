@@ -1,9 +1,18 @@
 #tkinter
 from tkinter import *
 from tkinter import ttk
+from tkinter import font
+
+#Pillow
+from PIL import ImageTk, Image
+# Import this always after tkinter module
 
 #classes
 from classes import ConcreteProperties, Rectangular, Concrete, Reinforcement, LongitudinalReinforcement, TransverseReinforcement, BeamSection
+
+#functions
+from functions import _read_int_value
+
 
 
 def beam_section(*args):
@@ -24,11 +33,20 @@ root = Tk()
 root.title("Beam Section Calculator")
 
 
-mainframe = ttk.Frame(root, padding="3 3 12 12")
+#Widgets
+
+
+##Widgets Styles
+ttk.Style().configure('Dark.TFrame', background='#5B6065', borderwidth=5, relief='raised')
+ttk.Style().configure('Theme.TFrame', borderwidth=5, relief='raised')
+
+##Main Frame
+mainframe = ttk.Frame(root, padding="3 3 3 3", style='Theme.TFrame')
 mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
 root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
 
+#Data entry
 beam_name=StringVar()
 beam_name_entry = ttk.Entry(mainframe, width=10, textvariable=beam_name) 
 beam_name_entry.grid(column=2, row=2, sticky=E)
@@ -94,8 +112,17 @@ concrete_compressive_strength_entry = ttk.Entry(mainframe, width=3, textvariable
 concrete_compressive_strength_entry.grid(column=11, row=3, sticky=E)
 concrete_compressive_strength.set("28")
 
-ttk.Button(mainframe, text="Calculate", command=beam_section).grid(column=12, row=6, sticky=W)
+code=StringVar()
 
+##Buttons
+
+ttk.Button(mainframe, text="Calculate", default= "active", command=beam_section).grid(column=1, row=12, sticky=W)
+nsr = ttk.Radiobutton(mainframe, text="NSR10", variable=code, value="NSR10").grid(column=14, row=2, sticky=W)
+aci = ttk.Radiobutton(mainframe, text="ACI318", variable=code, value="ACI318").grid(column=14, row=3, sticky=W)
+personalized = ttk.Radiobutton(mainframe, text="Personalized", variable=code, value="Personalized").grid(column=14, row=4, sticky=W)
+
+
+##Results
 top_nominal_moment = StringVar()
 ttk.Label(mainframe, textvariable=top_nominal_moment).grid(column=2, row=6, sticky=E)
 
@@ -105,7 +132,15 @@ ttk.Label(mainframe, textvariable=bottom_nominal_moment).grid(column=2, row=7, s
 nominal_shear_strength = StringVar()
 ttk.Label(mainframe, textvariable=nominal_shear_strength).grid(column=2, row=8, sticky=E)
 
+##Field Labels
 
+logo=Image.open('./images/logo.png')
+logo = logo.resize((20,20), Image.ANTIALIAS)
+
+ttk.Label(mainframe, text="Beam Section Calculator\nby Nicolás Moreno").grid(column=1, row=0, sticky=(W, E))
+ttk.Label(mainframe, text="Boa Constructor Software").grid(column=14, row=12, sticky=E)
+img = ImageTk.PhotoImage(logo)
+ttk.Label(mainframe, image=img).grid(column=13, row=12, sticky=(W, E))
 ttk.Label(mainframe, text="Beam name").grid(column=1, row=2, sticky=W)
 ttk.Label(mainframe, text="Beam width").grid(column=1, row=3, sticky=W)
 ttk.Label(mainframe, text="Beam height").grid(column=1, row=4, sticky=W)
